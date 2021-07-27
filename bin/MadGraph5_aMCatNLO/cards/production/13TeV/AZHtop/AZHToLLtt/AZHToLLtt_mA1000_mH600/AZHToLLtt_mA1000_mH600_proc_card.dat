@@ -1,0 +1,22 @@
+set group_subprocesses Auto
+set ignore_six_quark_processes False
+#set loop_color_flows False
+set gauge unitary
+set complex_mass_scheme False
+#set max_npoint_for_channel 0
+
+import model 2HDM4MG5-may15 
+
+#define f = u c d s u~ c~ d~ s~ ve vm vt e- mu- ta- ve~ vm~ vt~ e+ mu+ ta+
+define l+ = e+ mu+ 
+define l- = e- mu- 
+define vl = ve vm
+define vl~ = ve~ vm~
+
+
+#generate p p > h3, (h3 > h2 z, h2 > t t~, z > l+ l-), (t > w+ b, w+ > f f ), (t~ > w- b~, w- > f f) 
+#generate p p > h3, (h3 > h2 z, z > l+ l-,  h2 > t t~, t > w+ b, w+ > f f , t~ > w- b~, w- > f f)
+#generate p p > h3, (h3 > h2 z, z > l+ l-,  h2 > t t~, t > w+ b, w+ > l+ vl)
+generate p p > h3 > h2 z
+output AZHToLLtt_mA1000_mH600 -nojpeg
+
