@@ -49,7 +49,8 @@
 # PDF CHOICE: this automatically fixes also alpha_s and its evol.    *
 #*********************************************************************
  'lhapdf'    = pdlabel     ! PDF set                                  
-  263400    = lhaid     ! if pdlabel=lhapdf, this is the lhapdf number 
+ $DEFAULT_PDF_SETS    = lhaid    
+ $DEFAULT_PDF_MEMBERS    = reweight_PDF  ! if pdlabel=lhapdf, this is the lhapdf number 
 #*********************************************************************
 # Renormalization and factorization scales                           *
 #*********************************************************************
@@ -62,13 +63,13 @@
 #*********************************************************************
 # Matching - Warning! ickkw > 1 is still beta
 #*********************************************************************
- 1        = ickkw            ! 0 no matching, 1 MLM, 2 CKKW matching
+ 0        = ickkw            ! 0 no matching, 1 MLM, 2 CKKW matching    #Double-check if I need matching
  1        = highestmult      ! for ickkw=2, highest mult group
  1        = ktscheme         ! for ickkw=1, 1 Durham kT, 2 Pythia pTE
  1        = alpsfact         ! scale factor for QCD emission vx
  F        = chcluster        ! cluster only according to channel diag
  F        = pdfwgt           ! for ickkw=1, perform pdf reweighting
- 4        = asrwgtflavor     ! highest quark flavor for a_s reweight
+ 5        = asrwgtflavor     ! highest quark flavor for a_s reweight   #Double-check
  T        = clusinfo         ! include clustering tag in output
  3.0      = lhe_version       ! Change the way clustering information pass to shower.        
 #*********************************************************************
@@ -84,7 +85,7 @@
 #**********************************
 # BW cutoff (M+/-bwcutoff*Gamma)
 #**********************************
-  15000  = bwcutoff      ! (M+/-bwcutoff*Gamma)
+  15.0  = bwcutoff      ! (M+/-bwcutoff*Gamma) #Double-check -- some 2HDM processes set it to 15000
 #**********************************************************
 # Apply pt/E/eta/dr/mij cuts on decay products or not
 # (note that etmiss/ptll/ptheavy/ht/sorted cuts always apply)
@@ -233,11 +234,11 @@
 # When ptgmin=0, all the other parameters are ignored                  *
 # When ptgmin>0, pta and draj are not going to be used                 *
 #***********************************************************************
-   0 = ptgmin ! Min photon transverse momentum
+ 0 = ptgmin ! Min photon transverse momentum
  0.4 = R0gamma ! Radius of isolation code
  1.0 = xn ! n parameter of eq.(3.4) in hep-ph/9801442
  1.0 = epsgamma ! epsilon_gamma parameter of eq.(3.4) in hep-ph/9801442
- .true. = isoEM ! isolate photons from EM energy (photons and leptons)
+.true. = isoEM ! isolate photons from EM energy (photons and leptons)
 #*********************************************************************
 # WBF cuts                                                           *
 #*********************************************************************
@@ -252,11 +253,11 @@
 # maximal pdg code for quark to be considered as a light jet         *
 # (otherwise b cuts are applied)                                     *
 #*********************************************************************
- 4 = maxjetflavor    ! Maximum jet pdg code
+4 = maxjetflavor    ! Maximum jet pdg code                                    #Double-check since I have b in the final state
 #*********************************************************************
 # Jet measure cuts                                                   *
 #*********************************************************************
- 0   = xqcut   ! minimum kt jet measure between partons
+0   = xqcut   ! minimum kt jet measure between partons
 #*********************************************************************
 #
 #*********************************************************************

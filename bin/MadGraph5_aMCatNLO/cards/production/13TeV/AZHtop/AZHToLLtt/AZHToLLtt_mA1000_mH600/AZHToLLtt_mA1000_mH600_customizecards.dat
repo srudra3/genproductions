@@ -1,3 +1,5 @@
+set param_card frblock 1 1.500000e+00 
+set param_card frblock 2 9.900000e-01
 set param_card mass 25 125.0
 set param_card mass 35 600.0
 set param_card mass 36 1000.0

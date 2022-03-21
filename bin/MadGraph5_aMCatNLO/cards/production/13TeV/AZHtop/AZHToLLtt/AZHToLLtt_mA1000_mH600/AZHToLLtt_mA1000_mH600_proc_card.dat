@@ -5,9 +5,10 @@ set gauge unitary
 set complex_mass_scheme False
 #set max_npoint_for_channel 0
 
-import model 2HDM4MG5-may15 
-
+#import model 2HDM4MG5-may15 
+#import model 2HDMtII_NLO
 #define f = u c d s u~ c~ d~ s~ ve vm vt e- mu- ta- ve~ vm~ vt~ e+ mu+ ta+
+import model 2HDM
 define l+ = e+ mu+ 
 define l- = e- mu- 
 define vl = ve vm
