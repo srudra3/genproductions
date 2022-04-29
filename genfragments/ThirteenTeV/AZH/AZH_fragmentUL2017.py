@@ -1,8 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
 externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
- args = cms.vstring('/afs/cern.ch/work/s/srudrabh/AZH/genproductions/bin/MadGraph5_aMCatNLO/AZHToLLtt_mA1000_mH600_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz'),
- nEvents = cms.untracked.uint32(25000),
+ args = cms.vstring('/afs/cern.ch/work/s/srudrabh/AZH/genproductions/bin/MadGraph5_aMCatNLO/AZHToLLtt_mA900_mH350_slc7_amd64_gcc700_CMSSW_10_6_19_tarball.tar.xz'),
+ nEvents = cms.untracked.uint32(5000),
  numberOfParameters = cms.uint32(1),
  outputFile = cms.string('cmsgrid_final.lhe'),
  scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')
@@ -24,24 +24,13 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
     PythiaParameters = cms.PSet(
         pythia8CommonSettingsBlock,
         pythia8CP5SettingsBlock,
-        JetMatchingParameters = cms.vstring(
-              'JetMatching:setMad = off',
-              'JetMatching:scheme = 1',
-              'JetMatching:merge = on',
-	      'JetMatching:jetAlgorithm = 2',
-	      'JetMatching:etaJetMax = 5.',
-	      'JetMatching:coneRadius = 1.',
-	      'JetMatching:slowJetPower = 1', 
-              'JetMatching:qCut = 20.', #this is the actual merging scale
-              'JetMatching:nQmatch = 5', #4 corresponds to 4-flavour scheme (no matching of b-quarks), 5 for 5-flavour scheme
-              'JetMatching:nJetMax = 4', #number of partons in born matrix element for highest multiplicity
-              'JetMatching:doShowerKt = off', #off for MLM matching, turn on for shower-kT matching
-	      ),
-       	parameterSets = cms.vstring(
+        pythia8aMCatNLOSettingsBlock,
+        pythia8PSweightsSettingsBlock,
+       parameterSets = cms.vstring(
             'pythia8CommonSettings',
             'pythia8CP5Settings',
-            'JetMatchingParameters'
-	  )
+            'pythia8aMCatNLOSettings',
+          'pythia8PSweightsSettings',
+   )
     )
-
-    )
+)
