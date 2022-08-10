@@ -29,11 +29,11 @@ done
 sed -i 's/lambda2/-11.88587/g' AZHToLLtt_mA1000_mH600/AZHToLLtt_mA1000_mH600_customizecards.dat
 sed -i 's/lambda3/11.04078/g' AZHToLLtt_mA1000_mH600/AZHToLLtt_mA1000_mH600_customizecards.dat 
 
-sed -i 's/lambda2/-11.53552/g' AZHToLLtt_mA1000_mH700/AZHToLLtt_mA1000_mH700_customizecards.dat
-sed -i 's/lambda3/8.16190/g' AZHToLLtt_mA1000_mH700/AZHToLLtt_mA1000_mH700_customizecards.dat
+sed -i 's/lambda2/-10.34045/g' AZHToLLtt_mA1000_mH700/AZHToLLtt_mA1000_mH700_customizecards.dat
+sed -i 's/lambda3/8.98175/g' AZHToLLtt_mA1000_mH700/AZHToLLtt_mA1000_mH700_customizecards.dat
 
-sed -i 's/lambda2/-10.34045/g' AZHToLLtt_mA1000_mH800/AZHToLLtt_mA1000_mH800_customizecards.dat
-sed -i 's/lambda3/8.98175/g' AZHToLLtt_mA1000_mH800/AZHToLLtt_mA1000_mH800_customizecards.dat
+sed -i 's/lambda2/-8.55726/g' AZHToLLtt_mA1000_mH800/AZHToLLtt_mA1000_mH800_customizecards.dat
+sed -i 's/lambda3/6.60594/g' AZHToLLtt_mA1000_mH800/AZHToLLtt_mA1000_mH800_customizecards.dat
 
 sed -i 's/lambda2/-11.53552/g' AZHToLLtt_mA1200_mH1000/AZHToLLtt_mA1200_mH1000_customizecards.dat
 sed -i 's/lambda3/8.16190/g' AZHToLLtt_mA1200_mH1000/AZHToLLtt_mA1200_mH1000_customizecards.dat
