@@ -4,11 +4,11 @@ Nevents = 100
 externalLHEProducer = cms.EDProducer('ExternalLHEProducer',
     #args = cms.vstring('/uscms/home/janguian/nobackup/CMSSW_12_4_14_patch3/src/genproductions/bin/MadGraph5_aMCatNLO/SMS-GlGl_mGl-1p0_mN2-250_ct0_el8_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz'),
     #args = cms.vstring('SMS-GlGl_mGl-1p0_mN2-250_ct0_el8_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz'),
-    args = cms.vstring('root://cmseos.fnal.gov//store/user/janguian/gridpacks/SlepSnuCascade_220-209_200-190-180_2022_el8_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz'),
-    nEvents = cms.untracked.uint32(Nevents),
+    args = cms.vstring('/afs/cern.ch/work/s/srudrabh/CMSSW_13_3_1/src/SUSYCascades/GenFilters/genproductions/bin/MadGraph5_aMCatNLO/SlepSnuCascade_220-209_200-190-180_2022_el9_amd64_gcc11_CMSSW_13_2_9_tarball.tar.xz'),
+    nEvents = cms.untracked.uint32(5000),
     numberOfParameters = cms.uint32(1),
     outputFile = cms.string('cmsgrid_final.lhe'),
-    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_xrootd.sh'),
+    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh'),
     generateConcurrently = cms.untracked.bool(False)
 )
 
