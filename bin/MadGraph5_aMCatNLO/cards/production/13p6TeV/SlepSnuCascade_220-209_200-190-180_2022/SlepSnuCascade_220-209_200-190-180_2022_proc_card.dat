@@ -48,4 +48,8 @@ add process p p > x1+ x1- j @7
 add process p p > n2 n1 j @8
 
 
+add process p p > n2 x1+ j j @9
+add process p p > n2 x1- j j @10
+add process p p > x1+ x1- j j @11
+add process p p > n2 n1 j j @12
 output SlepSnuCascade_220-209_200-190-180_2022
