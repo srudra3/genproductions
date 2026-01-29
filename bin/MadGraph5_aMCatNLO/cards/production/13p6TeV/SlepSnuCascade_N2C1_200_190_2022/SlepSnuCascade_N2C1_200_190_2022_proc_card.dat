@@ -43,4 +43,4 @@ add process p p > n2 x1+ j @3
 add process p p > n2 x1- j @4
 add process p p > n2 x1+ j j @5
 add process p p > n2 x1- j j @6
-output SlepSnuCascade_N2C1_200_190_2022_new 
+output SlepSnuCascade_N2C1_200_190_2022 

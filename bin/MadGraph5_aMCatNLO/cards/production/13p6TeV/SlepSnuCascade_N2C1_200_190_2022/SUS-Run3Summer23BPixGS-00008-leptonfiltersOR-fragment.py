@@ -218,32 +218,6 @@ tmpAk4GenJetsNoNu = cms.EDProducer(
     rParam = cms.double(0.4)
 )
 
-# HT filter (considers genjets above pT threshold in |eta| range)
-genHTFilter = cms.EDFilter("GenHTFilter",
-    src = cms.InputTag("tmpAk4GenJetsNoNu"),
-    jetPtCut = cms.double(20.0),
-    jetEtaCut = cms.double(2.5),
-    genHTcut = cms.double(50.0)   # HT > 160 GeV
-)
-
-# GenMET: build gen MET from tmpGenParticlesForJetsNoNu (same setup as example)
-tmpGenMetTrue = cms.EDProducer("GenMETProducer",
-    src = cms.InputTag("tmpGenParticlesForJetsNoNu"),
-    onlyFiducialParticles = cms.bool(False),
-    globalThreshold = cms.double(0.0),
-    usePt = cms.bool(True),
-    applyFiducialThresholdForFractions = cms.bool(False),
-)
-
-#require genMET > 80 GeV
-genMETfilter1 = cms.EDFilter("CandViewSelector",
-    src = cms.InputTag("tmpGenMetTrue"),
-    cut = cms.string("pt > 80")
-)
-genMETfilter2 = cms.EDFilter("CandViewCountFilter",
-    src = cms.InputTag("genMETfilter1"),
-    minNumber = cms.uint32(1),
-)
 
 genLeptonsAll = cms.EDFilter(
     "GenParticleSelector",
@@ -254,7 +228,6 @@ genLeptonsAll = cms.EDFilter(
     filter = cms.bool(False)
 )
 
-
 genLeptonsFromWZSlepton = cms.EDFilter(
     "GenParticleSelector",
     src = cms.InputTag("tmpGenParticles"),
@@ -262,12 +235,14 @@ genLeptonsFromWZSlepton = cms.EDFilter(
         "(abs(pdgId) == 11 || abs(pdgId) == 13)"
         " && status == 1"
         " && ("
-        "      statusFlags().fromHardProcessBeforeFSR()"
-        "   || statusFlags().isHardProcess()"
-        " )"
+        "      abs(mother(0).pdgId()) == 24"          # W
+        "   || abs(mother(0).pdgId()) == 23"          # Z
+        "   || (abs(mother(0).pdgId()) >= 1000011 && abs(mother(0).pdgId()) <= 2000016)"
+        "   )"
     ),
     filter = cms.bool(False)
 )
+
 genAtLeastTwoLeptons = cms.EDFilter(
     "CandViewCountFilter",
     src = cms.InputTag("genLeptonsAll"),
@@ -279,15 +254,38 @@ genAtLeastTwoFromWZSlepton = cms.EDFilter(
     src = cms.InputTag("genLeptonsFromWZSlepton"),
     minNumber = cms.uint32(2)
 )
+
+
+genLeptons = cms.EDFilter(
+    "GenParticleSelector",
+    src = cms.InputTag("tmpGenParticles"),
+    cut = cms.string(
+        "(abs(pdgId) == 11 || abs(pdgId) == 13)"
+        " && status == 1"
+        " && pt > 1.5"
+        " && abs(eta) < 2.5"
+    ),
+    filter = cms.bool(False)
+)
+
+genDiLeptonFilter = cms.EDFilter(
+    "CandViewCountFilter",
+    src = cms.InputTag("genLeptons"),
+    minNumber = cms.uint32(2)
+)
+
+
+
+
 # Finally, chain into the production sequence
 ProductionFilterSequence = cms.Sequence(
     generator
     * tmpGenParticles
     * tmpGenParticlesForJetsNoNu
     * tmpAk4GenJetsNoNu
-    * genHTFilter
-    * tmpGenMetTrue
-    * genMETfilter1
-    * genMETfilter2
+    * genLeptonsAll
+    * genAtLeastTwoLeptons
+    * genLeptonsFromWZSlepton
+    * genAtLeastTwoFromWZSlepton
 )
 
