@@ -97,8 +97,8 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     RandomizedParameters = cms.VPSet(),
 )
 
-#model = "TChiWZ_ZToLL"
-model = "SlepSnuCascade"
+model = "TChiWZ"
+#model = "SlepSnuCascade"
 # weighted average of matching efficiencies for the full scan
 # must equal the number entered in McM generator params
 mcm_eff = 0.506
@@ -254,17 +254,13 @@ genLeptonsAll = cms.EDFilter(
     filter = cms.bool(False)
 )
 
-
 genLeptonsFromWZSlepton = cms.EDFilter(
     "GenParticleSelector",
     src = cms.InputTag("tmpGenParticles"),
     cut = cms.string(
         "(abs(pdgId) == 11 || abs(pdgId) == 13)"
         " && status == 1"
-        " && ("
-        "      statusFlags().fromHardProcessBeforeFSR()"
-        "   || statusFlags().isHardProcess()"
-        " )"
+        " && (statusFlags().fromHardProcess() || statusFlags().isDirectHardProcessTauDecayProduct())"
     ),
     filter = cms.bool(False)
 )
@@ -285,9 +281,8 @@ ProductionFilterSequence = cms.Sequence(
     * tmpGenParticles
     * tmpGenParticlesForJetsNoNu
     * tmpAk4GenJetsNoNu
-    * genHTFilter
     * tmpGenMetTrue
-    * genMETfilter1
-    * genMETfilter2
+    * genLeptonsAll
+    * genLeptonsFromWZSlepton
 )
 
