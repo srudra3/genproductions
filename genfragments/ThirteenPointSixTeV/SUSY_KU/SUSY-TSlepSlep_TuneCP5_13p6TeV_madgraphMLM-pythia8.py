@@ -184,7 +184,7 @@ for point in mpoints:
     generator.RandomizedParameters.append(
         cms.PSet(
             ConfigWeight = cms.double(wgt),
-            GridpackPath = cms.string(''),
+            GridpackPath = cms.string(''), ##FIXME
             ConfigDescription = cms.string('%s_mnlsp-%i_mlsp-%i' % (model, mnlsp, mlsp)),
             SLHATableForPythia8 = cms.string('%s' % slhatable),
             PythiaParameters = basePythiaParameters,
