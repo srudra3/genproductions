@@ -29,11 +29,11 @@ BLOCK MASS  # Mass Spectrum
    2000015     4.50000000E+05    # ~tau_2
    1000016     4.50000000E+05    # ~nu_tauL
    1000021     4.50000000E+05    # ~g
-   1000022     %MLSP%           # ~chi_10
+   1000022     %MN1%           # ~chi_10
    1000023     %MN2%            # ~chi_20
    1000025     4.50000000E+03   # ~chi_30
    1000035     4.50000000E+03   # ~chi_40
-   1000024     %MN2%          # ~chi_1+
+   1000024     %MC1%          # ~chi_1+
    1000037     4.50000000E+03   # ~chi_2+
 # DECAY TABLE
 #         PDG            Width
@@ -62,7 +62,10 @@ DECAY   1000021     0.00000000E+00   # gluino decays
 DECAY   1000022     0.00000000E+00   # neutralino1 decays
 DECAY   1000023     1.00000000E-1   # neutralino2 decays
     0.00000000E+00   3    1000022   11   -11
-    1.00000000E+00   2    1000022   23
+    0.48000000E+00   2    1000022   23
+    0.24000000E+00   2    1000024   -24
+    0.24000000E+00   2   -1000024   24
+    0.04000000E+00   2    1000022   22
 DECAY   1000024     1.00000000E-1   # chargino1+ decays
     0.00000000E+00   3    1000022   12   -11
     1.00000000E+00   2    1000022   24
@@ -82,77 +85,58 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     RandomizedParameters = cms.VPSet(),
 )
 
-model = "TChiWZ"
+model = "Higgsino-C1C1"
 # weighted average of matching efficiencies for the full scan
 # must equal the number entered in McM generator params
-mcm_eff = 0.506
+mcm_eff = 0.515
 
 def matchParams(mass):
-  if mass < 124: return 76,0.64
-  elif mass < 151: return 76, 0.6
-  elif mass < 176: return 76, 0.57
-  elif mass < 226: return 76, 0.54
-  elif mass < 326: return 76, 0.51
-  elif mass < 451: return 76, 0.48
-  elif mass < 651: return 76, 0.45
-  else: return 76, 0.42
-
+  if mass < 101: return 76,0.644
+  elif mass < 121.: return 76,0.622
+  elif mass < 141.: return 76,0.600
+  elif mass < 161.: return 76,0.584
+  elif mass < 181.: return 76,0.570
+  elif mass < 201.: return 76,0.555
+  elif mass < 221.: return 76,0.543
+  elif mass < 261.: return 76,0.533
+  elif mass < 301.: return 76,0.523
+  elif mass < 341.: return 76,0.506
+  elif mass < 381.: return 76,0.500
+  elif mass < 421.: return 76,0.487
+  elif mass < 461.: return 76,0.475
+  elif mass < 501.: return 76,0.469
+  else: return 76,0.469
 
 # Parameters that define the grid in the bulk and diagonal
-class gridBlock:
-  def __init__(self, xmin, xmax, xstep, ystep):
-    self.xmin = xmin
-    self.xmax = xmax
-    self.xstep = xstep
-    self.ystep = ystep
+   
+mn2_points = [101,126,151,176,201,226,251,276,301,326,351,376,401,426,451,476,501]
+dm_points  = [2,3,5,6,7.5,10,15,20,25,30,40,50,60,70,80,90,100,120,140]
 
-# Number of events: min(goalLumi*xsec, maxEvents) (always in thousands)
-diagStep = 100
-maxDM = 60
-extras = [1, 1.5, 2.5, 3, 3.75, 5, 7.5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120]
+nev_per_point = 200
 
-scanBlocks = []
-scanBlocks.append(gridBlock(100, 501, 25, 25))
-minDM = 60
-ymin, ymed, ymax = 0, 0, 601
+from itertools import product
 
-# Number of events for mass point, in thousands
-def events(dm):
-  if dm<=50: return 100
-  else: return 50
+for mn2, dm in product(mn2_points, dm_points):
 
+    # Enforce MN1 >= 1
+    if mn2 - dm < 1:
+        continue
 
-cols = []
-xmin, xmax = 9999, 0
-for block in scanBlocks:
-  for mx in range(block.xmin, block.xmax, block.xstep):
-    xmin = min(xmin, block.xmin)
-    xmax = max(xmax, block.xmax)
-    col = []
-    my = 0
-    begDiag = max(ymed, mx-maxDM)
-    if(my !=  mx-minDM and mx-minDM <= ymax) or (my ==  mx-minDM):
-      #if mx-minDM>=0:
-      #  my = mx-minDM
-      #  nev = events(mx-my)
-      #  col.append([mx,my, nev])
-      for ydm in extras:
-        nev = events(ydm)
-        if (mx-ydm <= ymax) and (mx-ydm>=0): col.append([mx,mx-ydm, nev])
-    cols.append(col)
+    mn1 = mn2 - dm
+    mc1 = (mn2 + mn1) / 2.
 
-mpoints = []
-for col in cols: mpoints.extend(col)
-
-for point in mpoints:
-    mn2, mlsp = point[0], point[1]
     qcut, tru_eff = matchParams(mn2)
-    wgt = point[2]*(mcm_eff/tru_eff)
-    
-    if mlsp==0: mlsp = 1
+    wgt = nev_per_point / tru_eff
+
+    mn2Str = str(int(mn2))
+    mn1Str = "{0:.2f}".format(mn1).replace(".","p")
+    mc1Str = "{0:.2f}".format(mc1).replace(".","p")
+
     slhatable = baseSLHATable.replace('%MN2%','%e' % mn2)
-    slhatable = slhatable.replace('%MLSP%','%e' % mlsp)
-    
+    slhatable = slhatable.replace('%MC1%','%e' % mc1)
+    slhatable = slhatable.replace('%MN1%','%e' % mn1)
+
+
     basePythiaParameters = cms.PSet(
         pythia8CommonSettingsBlock,
         pythia8CP5SettingsBlock,
@@ -183,7 +167,7 @@ for point in mpoints:
         cms.PSet(
             ConfigWeight = cms.double(wgt),
             GridpackPath = cms.string(''),  ##FIXME
-            ConfigDescription = cms.string('%s_mn2-%i_mlsp-%i' % (model, mn2, mlsp)),
+            ConfigDescription = cms.string('%s_MN2-%i_MN1-%i' % (model, mn2Str, mn1Str)),
             SLHATableForPythia8 = cms.string('%s' % slhatable),
             PythiaParameters = basePythiaParameters,
         ),

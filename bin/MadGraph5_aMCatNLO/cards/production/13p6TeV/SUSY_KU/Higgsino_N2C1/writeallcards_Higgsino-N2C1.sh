@@ -9,7 +9,7 @@ PARTC1="_MC1-"
 
 for MN2 in 101 126 151 176 201 226 251 276 301 326 351 376 401 426 451 476 501; do
     for DM in 2 3 5 6 7.5 10 15 20 25 30 40 50 60 70 80 90 100 120 140; do
-        if (( $(echo "$DM >= $MN2" | bc -l) )); then
+        if (( $(echo "$DM > $MN2 - 1" | bc -l) )); then
             continue
         fi
 
