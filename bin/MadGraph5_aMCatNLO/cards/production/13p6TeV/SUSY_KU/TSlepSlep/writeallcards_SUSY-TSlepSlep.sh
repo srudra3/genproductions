@@ -1,7 +1,7 @@
 #!/bin/sh
 JOBS="jobs"
 TEMP="templatecards"
-PROC="SUSY_TSlepSlep"
+PROC="SUSY-TSlepSlep"
 PART="_MSlep-"
 
 ### Create cards and SLHAs for all mass points

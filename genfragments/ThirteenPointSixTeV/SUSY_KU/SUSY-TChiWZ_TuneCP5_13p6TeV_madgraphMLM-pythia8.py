@@ -3,6 +3,8 @@ from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.MCTunesRun3ECM13p6TeV.PythiaCP5Settings_cfi import *
 from Configuration.Generator.PSweightsPythia.PythiaPSweightsSettings_cfi import *
 
+# genORFilter as defined in 
+from MyGenFilters.GenORFilter.GenORFilter_cfi import genORFilter
 
 baseSLHATable="""
 BLOCK MASS  # Mass Spectrum
@@ -182,7 +184,7 @@ for point in mpoints:
     generator.RandomizedParameters.append(
         cms.PSet(
             ConfigWeight = cms.double(wgt),
-            GridpackPath = cms.string(''),  ##FIXME
+            GridpackPath = cms.string('/cvmfs/cms.cern.ch/phys_generator/gridpacks/RunIII/13p6TeV/slc7_amd64_gcc10/MadGraph5_aMCatNLO/SUSY_SMS/SMS-C1N2/SMS-C1N2_mC1-%i_slc7_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz' % mn2),  
             ConfigDescription = cms.string('%s_mn2-%i_mlsp-%i' % (model, mn2, mlsp)),
             SLHATableForPythia8 = cms.string('%s' % slhatable),
             PythiaParameters = basePythiaParameters,
@@ -311,17 +313,16 @@ genAtLeastTwoLeptonsFromHardProcess = cms.EDFilter(
     minNumber = cms.uint32(2)
 )
 
-dileptonSequence = cms.Sequence(
-    genAtLeastTwoLeptons
-  * genAtLeastTwoLeptonsFromHardProcess
-)
+#dileptonSequence = cms.Sequence(
+#    genAtLeastTwoLeptons
+#  * genAtLeastTwoLeptonsFromHardProcess
+#)
 
-
-htmetSequence = cms.Sequence(
-    genHTFilter
-  * genMETfilter1
-  * genMETfilter2
-)
+#htmetSequence = cms.Sequence(
+#    genHTFilter
+#  * genMETfilter1
+#  * genMETfilter2
+#)
 
 
 # Finally, chain into the production sequence
@@ -332,5 +333,7 @@ ProductionFilterSequence = cms.Sequence(
   * tmpAk4GenJetsNoNu
   * tmpGenMetTrue
   * genLeptonsAll
+  * genLeptonsFromHardProcess
+  * genORFilter
 )
 

@@ -111,7 +111,7 @@ class gridBlock:
 # Number of events: min(goalLumi*xsec, maxEvents) (always in thousands)
 diagStep = 100
 maxDM = 60
-extras = [1, 3, 5, 7, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100]
+extras = [1, 3, 5, 7.5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 120, 140]
 
 scanBlocks = []
 scanBlocks.append(gridBlock(100, 501, 25, 25))
@@ -184,7 +184,7 @@ for point in mpoints:
     generator.RandomizedParameters.append(
         cms.PSet(
             ConfigWeight = cms.double(wgt),
-            GridpackPath = cms.string(''), ##FIXME
+            GridpackPath = cms.string('/cvmfs/cms.cern.ch/phys_generator/gridpacks/RunIII/13p6TeV/slc7_amd64_gcc10/MadGraph5_aMCatNLO/SUSY_SMS/SMS-TSlepSlep/SMS-TSlepSlep_mSlep-%i_slc7_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz' % mnlsp), 
             ConfigDescription = cms.string('%s_mnlsp-%i_mlsp-%i' % (model, mnlsp, mlsp)),
             SLHATableForPythia8 = cms.string('%s' % slhatable),
             PythiaParameters = basePythiaParameters,
