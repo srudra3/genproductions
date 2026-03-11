@@ -111,7 +111,7 @@ class gridBlock:
 # Number of events: min(goalLumi*xsec, maxEvents) (always in thousands)
 diagStep = 100
 maxDM = 60
-extras = [1, 1.5, 2.5, 3, 3.75, 5, 7.5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120]
+extras = [0.6, 0.8, 1, 1.5, 2, 2.5, 3, 3.75, 5, 7.5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120]
 
 scanBlocks = []
 scanBlocks.append(gridBlock(100, 501, 25, 25))
